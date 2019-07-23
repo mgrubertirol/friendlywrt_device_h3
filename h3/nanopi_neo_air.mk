@@ -1,0 +1,1 @@
+nanopi_r1.mk
