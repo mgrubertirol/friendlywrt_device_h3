@@ -1,7 +1,6 @@
 #!/bin/bash
 set -eu
 ROOTFS_DIR=$1
-rsync -a files/* ${ROOTFS_DIR}/
 
 function setup_openwrt()
 {
