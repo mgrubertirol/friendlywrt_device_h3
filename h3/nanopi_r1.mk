@@ -3,6 +3,7 @@
 TARGET_PLAT=h3
 TARGET_ARCH=arm
 CROSS_COMPILER=arm-linux-
+TARGET_OSNAME=friendlywrt_4.14_armhf
 
 # FriendlyWRT
 # 
