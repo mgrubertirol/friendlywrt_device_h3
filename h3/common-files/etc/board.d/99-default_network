@@ -1,0 +1,49 @@
+#!/bin/sh
+#
+# Copyright (C) 2013-2015 OpenWrt.org
+#
+
+. /lib/functions/uci-defaults.sh
+
+logger "Modem init: Start"
+
+DIR=/sys/class/gpio
+
+# Make sure to set the LTE_PERSTn to high
+if [ ! -d ${DIR}/gpio412/ ]; then
+	echo 412 > /sys/class/gpio/export || true
+fi
+echo out > /sys/class/gpio/gpio412/direction
+echo 1 > /sys/class/gpio/gpio412/value
+
+# Disable flight mode (LTE_WDISABLEn)
+if [ ! -d ${DIR}/gpio413/ ]; then
+	echo 413 > /sys/class/gpio/export || true
+fi
+echo out > /sys/class/gpio/gpio413/direction
+echo 1 > /sys/class/gpio/gpio413/value
+
+if [ ! -d ${DIR}/gpio3/ ]; then
+	echo 3 > ${DIR}/export | true
+fi
+
+echo out > ${DIR}/gpio3/direction
+sleep 3
+
+echo 0 > ${DIR}/gpio3/value
+sleep 5
+echo 1 > ${DIR}/gpio3/value
+sleep 3
+
+logger "Modem init: End"
+
+board_config_update
+
+json_is_a network object && exit 0
+
+ucidef_set_interface_lan 'eth0'
+[ -d /sys/class/net/eth1 ] && ucidef_set_interface_wan 'eth1'
+
+board_config_flush
+
+exit 0
