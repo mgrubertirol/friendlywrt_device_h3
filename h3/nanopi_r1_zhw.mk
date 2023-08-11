@@ -23,7 +23,7 @@ TARGET_UBOOT_CONFIG=nanopi_h3_defconfig
 # Kernel
 # 
 
-TARGET_KERNEL_CONFIG=sunxi_defconfig
+TARGET_KERNEL_CONFIG=sunxi_zhw_defconfig
 TARGET_KERNEL_DTB=sun8i-*-nanopi-*.dtb
 
 # Misc
