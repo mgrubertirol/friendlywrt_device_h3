@@ -1,0 +1,36 @@
+ open com /dev/ttyUSB2
+ set com 115200n81
+ #set verbose on
+ set comecho off
+ set senddelay 0.02
+ waitquiet 0.2 0.2
+ flash 0.1
+
+ #print "Enter the Telit-AT Command, like at#moni:\n"
+ input $a
+ let b=(len($a))-1
+ let $b=$left($a,b)
+
+ if b != 0 goto command
+ else goto error
+
+ :command
+ send "ATE0^m"
+ waitfor 5 "OK"
+ send $b+"^m"
+ waitfor 10 "#" "ERROR" "+" "OK"
+ if % = -1 goto timeout
+ if % = 1 goto error
+ get 1 "^m" $x
+ print $x+"\n"
+ exit
+
+ :timeout
+ print "a timeout has occurred\n"
+ exit
+
+ :error
+ print "an error occurred during the query\n"
+
+ :exit
+ exit

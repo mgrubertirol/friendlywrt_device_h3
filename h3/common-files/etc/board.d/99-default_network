@@ -3,9 +3,7 @@
 # Copyright (C) 2013-2015 OpenWrt.org
 #
 
-. /lib/functions/uci-defaults.sh
-
-logger "Modem init: Start"
+logger "Modem gpio init: Start"
 
 DIR=/sys/class/gpio
 
@@ -35,14 +33,16 @@ sleep 5
 echo 1 > ${DIR}/gpio3/value
 sleep 3
 
-logger "Modem init: End"
+logger "Modem gpio init: End"
+
+. /lib/functions/uci-defaults.sh
 
 board_config_update
 
 json_is_a network object && exit 0
 
 ucidef_set_interface_lan 'eth0'
-[ -d /sys/class/net/eth1 ] && ucidef_set_interface_wan 'eth1'
+[ -d /sys/class/net/wwan0 ] && ucidef_set_interface_wan 'wwan0'
 
 board_config_flush
 
