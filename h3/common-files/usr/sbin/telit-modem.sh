@@ -157,4 +157,8 @@ ifconfig wwan0 mtu $MTU_WWAN
 
 logger "Modem init: End"
 
+logger "Modem init: Restart lora paket forwarder start"
+/etc/init.d/lora_pkt_fwd restart
+logger "Modem init: Restart lora paket forwarder end"
+
 exit 0
